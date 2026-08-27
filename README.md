@@ -52,3 +52,7 @@ github push \| learn to use flask as Backend \| try to link [flask and vue]
 **slove**
 
 git error \| make beautiful README.md :) \|
+
+## Star History
+
+[![Star History Chart](https://api.star-history.com/svg?repos=2996384767/AAA_small_app&type=Date)](https://www.star-history.com/#2996384767/AAA_small_app&Date)

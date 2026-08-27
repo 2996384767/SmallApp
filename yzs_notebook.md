@@ -16,6 +16,6 @@ action : navicat test | uniapp test ｜ learn to use uv venv
 slove : link [between TXcloud and navicat local] and CRUD | perfectly control uv venv
 next : try link [ flask and vue ] | try vue frontend
 
-8.27
-action : github push | learn to use flask as Backend | try to link [flask and vue] 
+8.27：3h
+action : github push 0.5 | learn to use flask as Backend | try to link [flask and vue] 
 slove : git error | make beautiful README.md :) | 

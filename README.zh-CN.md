@@ -52,3 +52,7 @@
 **解决**
 
 Git 错误 \| 制作美观的 README.md :) \|
+
+## Star 历史
+
+[![Star History Chart](https://api.star-history.com/svg?repos=2996384767/AAA_small_app&type=Date)](https://www.star-history.com/#2996384767/AAA_small_app&Date)
