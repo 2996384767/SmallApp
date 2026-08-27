@@ -55,4 +55,10 @@ Git 错误 \| 制作美观的 README.md :) \|
 
 ## Star 历史
 
-[![Star History Chart](https://api.star-history.com/svg?repos=2996384767/SmallApp&type=Date)](https://www.star-history.com/#2996384767/SmallApp&Date)
+<a href="https://www.star-history.com/?repos=2996384767%2FSmallApp&type=date&legend=top-left">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/chart?repos=2996384767/SmallApp&type=date&theme=dark&legend=top-left&sealed_token=e0ozaQzFJHubuTKY9kmgGgAyc7IOscknVE1tOuWSzD_G4RY6I0YnwjDOEw_n_iiYexBPXHnGFX0SsA43jth7rld5ak5Y8fkYf0Sl6o5CXd35ug3ou4xNOWOz502dbVcsgnMCOTFGPrmYzvPb40jvkn0ft9IdlNxE-p9J38JvgIOUjLOei2_mAZJxtiIB" />
+    <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/chart?repos=2996384767/SmallApp&type=date&legend=top-left&sealed_token=e0ozaQzFJHubuTKY9kmgGgAyc7IOscknVE1tOuWSzD_G4RY6I0YnwjDOEw_n_iiYexBPXHnGFX0SsA43jth7rld5ak5Y8fkYf0Sl6o5CXd35ug3ou4xNOWOz502dbVcsgnMCOTFGPrmYzvPb40jvkn0ft9IdlNxE-p9J38JvgIOUjLOei2_mAZJxtiIB" />
+    <img alt="Star History Chart" src="https://api.star-history.com/chart?repos=2996384767/SmallApp&type=date&legend=top-left&sealed_token=e0ozaQzFJHubuTKY9kmgGgAyc7IOscknVE1tOuWSzD_G4RY6I0YnwjDOEw_n_iiYexBPXHnGFX0SsA43jth7rld5ak5Y8fkYf0Sl6o5CXd35ug3ou4xNOWOz502dbVcsgnMCOTFGPrmYzvPb40jvkn0ft9IdlNxE-p9J38JvgIOUjLOei2_mAZJxtiIB" />
+  </picture>
+</a>
