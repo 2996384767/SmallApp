@@ -43,15 +43,21 @@ link [between TXcloud and navicat local] and CRUD \| perfectly control uv venv
 
 try link [ flask and vue ] \| try vue frontend
 
-## 8.27
+## 8.27: 3h
 
 **action**
 
-github push \| learn to use flask as Backend \| try to link [flask and vue]
+github push 0.5 \| learn to use flask as Backend \|
+
+take a lecture https://www.youtube.com/watch?v=am7POvSZ4GE about python and flask
 
 **slove**
 
-git error \| make beautiful README.md :) \|
+git error \| make beautiful README.md :) \| beautiful star map
+
+**next**
+
+reuse old falsk code and try to make something awesome \| try [link flask and vue]
 
 ## Star History
 

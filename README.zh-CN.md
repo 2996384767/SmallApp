@@ -43,15 +43,21 @@
 
 尝试连接 Flask 与 Vue \| 尝试 Vue 前端
 
-## 8.27
+## 8.27：3小时
 
 **行动**
 
-推送到 GitHub \| 学习使用 Flask 作为后端 \| 尝试连接 Flask 与 Vue
+推送到 GitHub 0.5 \| 学习使用 Flask 作为后端 \|
+
+观看关于 Python 和 Flask 的课程：https://www.youtube.com/watch?v=am7POvSZ4GE
 
 **解决**
 
-Git 错误 \| 制作美观的 README.md :) \|
+Git 错误 \| 制作美观的 README.md :) \| 美观的 Star 图表
+
+**下一步**
+
+复用旧的 Flask 代码并尝试制作一些很棒的内容 \| 尝试连接 Flask 与 Vue
 
 ## Star 历史
 
