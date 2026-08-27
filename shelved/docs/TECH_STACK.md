@@ -1,0 +1,323 @@
+# AAA Small App 目标技术栈
+
+## 1. 项目目标
+
+建设一个同时支持以下客户端的商用项目：
+
+- Web/H5
+- 微信小程序
+- 未来可扩展的 App
+- 多端共用同一套后端 API
+- 开发环境与生产环境相互隔离
+- 后期可在不同云平台之间迁移
+
+## 2. 目标架构
+
+```text
+uni-app（Web/H5 + 微信小程序）
+                 |
+                 | HTTPS / JSON API
+                 v
+     主业务 API（初期 Flask，长期可选 NestJS）
+          /      |       |
+     SQL /       | S3    | 缓存/队列（按需）
+        v         v       v
+ PostgreSQL   对象存储   Redis
+```
+
+上图是长期目标，不代表第一版必须一次性实现全部组件。
+
+## 3. 前端
+
+### 技术选择
+
+- uni-app
+- Vue 3
+- TypeScript
+- Vite
+- Pinia（出现跨页复杂状态时再加入）
+
+前端负责页面展示、用户交互、表单基础校验和调用 HTTPS API。
+前端不得保存数据库密码、S3 Secret Key、微信 `AppSecret` 等服务端密钥。
+
+## 4. 后端
+
+### 长期备选技术
+
+- Node.js LTS
+- NestJS
+- TypeScript
+- REST API
+- OpenAPI/Swagger API 文档
+
+初期使用 Flask 承担身份认证、权限、业务逻辑、参数校验、数据库读写、文件上传授权、
+日志和异常处理。需要扩展 Node.js 企业后端能力时再学习 NestJS。无论使用哪种框架，
+前端都不直接连接数据库。
+
+## 5. 关系型数据库
+
+### 长期升级选择：PostgreSQL
+
+PostgreSQL 适合新项目，具备完整的 SQL、事务、约束、复杂查询和 JSON/JSONB 能力，
+也容易在主流云平台获得托管服务。
+
+适合保存用户、角色、商品、内容、订单、支付记录、评论、文件元数据和审计记录。
+
+### MariaDB 与 PostgreSQL 的关系
+
+两者都是开源关系型数据库，都使用 SQL、表、索引、关联查询、事务和约束。
+
+MariaDB 属于 MySQL 体系，与 MySQL 的语法和工具高度兼容。PostgreSQL 是独立体系，
+更注重 SQL 标准、复杂查询、扩展性和丰富的数据类型。
+
+| 对比项 | MariaDB | PostgreSQL |
+| --- | --- | --- |
+| 体系 | MySQL 兼容体系 | 独立的 PostgreSQL 体系 |
+| 现有经验 | 项目所有者已经熟悉 | 需要学习部分差异 |
+| 常见场景 | 传统 Web 系统、MySQL 技术栈 | 新应用、复杂数据模型 |
+| JSON | 支持 | JSONB 查询和索引能力更强 |
+| 高级 SQL | 足够完整 | 通常更全面 |
+| 两者迁移 | 需调整建表语句和 SQL | 需调整建表语句和 SQL |
+
+选择原则：
+
+- 全新项目，预期使用复杂查询或 JSON 数据：选择 PostgreSQL。
+- 希望尽快交付，优先发挥现有 MariaDB 经验：选择 MariaDB。
+
+MariaDB 是本项目的正式备选方案。NestJS 应通过 ORM 或 Repository 层访问数据库，
+保持前端 API 不受数据库更换影响。
+
+## 6. S3 兼容对象存储
+
+对象存储用于保存用户头像、商品图片、视频、PDF、表格、附件、导出文件和备份。
+
+可选服务：
+
+- Amazon S3
+- 阿里云 OSS
+- 腾讯云 COS
+- MinIO
+- Sealos Object Storage
+
+大文件通常不直接存入关系型数据库。数据库保存文件元数据：
+
+```text
+files
+-----
+id
+owner_id
+object_key
+public_url
+mime_type
+size_bytes
+created_at
+```
+
+上传流程：
+
+```text
+1. uni-app 向 NestJS 申请上传。
+2. NestJS 校验用户，生成短期有效的签名地址。
+3. uni-app 将文件上传到对象存储。
+4. NestJS 将 object key 和文件信息写入数据库。
+5. API 返回公开地址或短期有效的下载地址。
+```
+
+存储桶默认为私有，只有确定对外公开的资源才开启公开读取。
+
+## 7. Redis（按需加入）
+
+第一版不必立即使用 Redis。出现验证码过期、API 限流、Session、热点数据缓存、
+分布式锁或后台任务时再加入。
+
+关系型数据库始终是正式数据源，Redis 只保存临时或可重建的数据。
+
+## 8. 部署
+
+- 使用 Sealos 或其他托管云平台部署 NestJS 容器。
+- 使用托管 PostgreSQL，也可替换为 MariaDB。
+- 使用 S3 兼容对象存储。
+- 有明确需求时才启用 Redis。
+- Web 端和 API 都使用 HTTPS 自定义域名。
+
+```text
+https://www.example.com       Web/H5
+https://api.example.com       NestJS API
+https://files.example.com     公开文件或 CDN
+```
+
+微信小程序上线前，必须将 API 和文件域名登记为合法服务器域名。
+
+## 9. 环境隔离
+
+```text
+开发环境：
+- 开发 API
+- 开发数据库
+- 开发对象存储桶
+
+生产环境：
+- 生产 API
+- 生产数据库
+- 生产对象存储桶
+```
+
+开发环境不得直接修改生产数据。密钥和环境差异通过环境变量管理：
+
+```text
+DATABASE_URL
+S3_ENDPOINT
+S3_BUCKET
+S3_ACCESS_KEY
+S3_SECRET_KEY
+JWT_SECRET
+WECHAT_APP_ID
+WECHAT_APP_SECRET
+```
+
+只有可对外公开的前端变量才能使用 `VITE_` 前缀。
+
+## 10. 未来目录结构
+
+当后端开发正式开始后，可转换为 monorepo：
+
+```text
+AAA_small_app/
+|-- apps/
+|   `-- client/          uni-app 前端
+|-- services/
+|   |-- api/             Flask 主业务 API
+|   `-- ai/              FastAPI AI 服务（按需）
+|-- infra/
+|   `-- docker/          Docker 与部署配置
+|-- docs/
+|   `-- openapi/         跨语言 API 契约
+`-- README.md
+```
+
+在正式开始后端之前，不重构现有前端目录，项目继续从根目录运行。
+
+## 11. 基于现有能力的最小学习方案
+
+### 已掌握的技术
+
+```text
+HTML + CSS + JavaScript
+Python + Flask
+MariaDB
+```
+
+第一版不替换 Flask 和 MariaDB，先将已有技术完善成可上线架构：
+
+```text
+uni-app + Vue 3
+        |
+        | REST API / JSON
+        v
+   Flask 模块化单体
+      |          |
+      | SQL      | 出现文件上传时再加入
+      v          v
+   MariaDB    S3 对象存储
+```
+
+### 第一阶段：只学习项目必需内容
+
+1. **Vue 3 基础**：组件、`ref`、`computed`、事件、表单、生命周期和 props。
+2. **uni-app 基础**：`pages.json`、路由、页面生命周期、`uni.request`、`uni.uploadFile`、本地缓存和条件编译。
+3. **REST API**：GET/POST/PATCH/DELETE、HTTP 状态码和统一 JSON 返回格式。
+4. **Flask 工程化**：Application Factory、Blueprint、分环境配置、统一异常处理和日志。
+5. **MariaDB 工程化**：SQLAlchemy ORM、Alembic/Flask-Migrate、索引、事务和备份。
+6. **基础安全**：密码哈希、JWT/会话、权限检查、参数校验、CORS 和密钥环境变量。
+7. **基础测试**：使用 pytest 覆盖登录、权限和核心 API。
+
+当前 TypeScript 模板可以继续使用。初期只需学习基本类型、接口、可选属性和函数参数，
+不需要先系统学完 TypeScript。
+
+### 第二阶段：具备上线能力
+
+1. 给前端和 Flask 配置开发、测试、生产环境。
+2. 学习 Dockerfile 和 Docker Compose，能够在本地启动 Flask + MariaDB。
+3. 将 Flask 部署到 Sealos、Render 或国内托管云平台。
+4. 配置 HTTPS、域名、数据库备份、错误日志和基础监控。
+5. 出现头像、附件等功能时，学习 S3 预签名上传。
+6. 使用 GitHub Actions 自动执行测试和构建镜像。
+
+### 第三阶段：出现真实需求后再升级
+
+- 需要 JSONB、pgvector 或更复杂的数据能力时，再评估迁移 PostgreSQL。
+- 出现验证码、热点缓存、限流或后台任务时，再加入 Redis。
+- 确实依赖 Python AI 生态、独立扩缩容或长耗时推理时，再拆出 FastAPI AI 服务。
+- 出现多个独立服务、多人协作和明确扩缩容需求时，再学习 Kubernetes。
+- NestJS 作为后端岗位扩展技术学习，不为了更换技术而重写已经稳定的 Flask 业务。
+
+### 最小学习结论
+
+```text
+现在必学：Vue 3 + uni-app + REST API + Flask 工程化 + SQLAlchemy + Docker
+开发中再学：TypeScript 基础 + 身份认证 + pytest + S3 + CI/CD
+暂不必学：NestJS + PostgreSQL + Redis + FastAPI + Kubernetes + 微服务
+```
+
+## 12. 长期企业化与 AI 方向设想
+
+项目应先保持模块化单体，不为展示技术而过早拆分微服务。
+
+```text
+uni-app
+   |
+   v
+主业务 API（初期 Flask，长期可选 NestJS）
+   |-- MariaDB / PostgreSQL
+   |-- S3 对象存储
+   |-- Redis（按需）
+   `-- FastAPI AI 服务（按需）
+          |-- 文档解析与切分
+          |-- Embedding 与检索
+          |-- RAG 和引用来源
+          `-- 评测、延迟、Token 和费用记录
+```
+
+AI 第一版优先考虑 PostgreSQL + pgvector，不同时引入独立向量数据库和 Neo4j。
+只有存在明确图关系查询时才加入 Neo4j。
+
+就业展示应优先完成：
+
+- 可演示的完整业务流程。
+- 登录、Token 刷新、RBAC 权限和安全校验。
+- 数据库迁移、事务、索引和备份。
+- S3 预签名上传和私有文件授权。
+- 单元测试、集成测试和 CI/CD。
+- 错误日志、健康检查、性能数据和可观测性。
+- RAG 评测集、检索效果对比和答案引用。
+- 清晰的 README、架构决策记录和线上演示。
+
+Sealos 只是托管平台。只有实际配置并能解释 Deployment、Service、Ingress、Secret、
+健康检查、资源限制、滚动更新和回滚时，才应将 Kubernetes 写成项目能力。
+
+## 13. 实施顺序
+
+1. 使用模拟数据完成 uni-app 主要页面。
+2. 定义 API 契约和第一版数据库结构。
+3. 创建模块化 Flask 后端和 MariaDB 开发数据库。
+4. 加入身份认证和数据库迁移管理。
+5. 在首个文件上传功能开发时接入对象存储。
+6. 出现明确需求时再加入 Redis。
+7. 创建独立的生产资源并部署。
+8. 配置域名、HTTPS、监控、备份和上线检查。
+
+## 14. 当前结论
+
+```text
+初期前端：   uni-app + Vue 3 + TypeScript 基础
+初期后端：   Flask + Python
+初期数据库： MariaDB
+文件存储： S3 兼容对象存储
+缓存：       Redis（按需）
+AI 服务：    FastAPI + RAG（按需拆分）
+长期后端备选：NestJS + TypeScript
+长期数据库备选：PostgreSQL + pgvector
+部署：       Docker + Sealos/国内托管云平台
+工程：       pytest + GitHub Actions + 日志/监控
+代码管理： GitHub
+```
