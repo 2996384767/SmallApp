@@ -21,3 +21,8 @@ action : github push 0.5 | learn to use flask as Backend |
         take a lecture https://www.youtube.com/watch?v=am7POvSZ4GE about python and flask
 slove : git error | make beautiful README.md :) | beautiful star map 
 next : reuse old falsk code and try to make something awesome | try [link flask and vue]
+
+8.29:
+action : find a new job | change work mac 
+slove : file save and push | work md make
+next : rebuild work environment | continue flask
