@@ -5,59 +5,62 @@
 | | |
 | --- | --- |
 | **start time** | 2026.8.24 |
-| **aim** | samll app demo / H5 web demo |
-| **tools** | vscode navicat TXcloud(db) edge |
-| **skills** | uniapp vue3(ts css html) flask mongodb |
+| **aim** | small app demo / H5 web demo |
+| **tools** | VS Code, Navicat, Tencent Cloud database, Edge |
+| **skills** | uni-app, Vue 3 (TypeScript, CSS, HTML), Flask, MongoDB |
+| **demo plan** | 9.5-v1 / 9.9-v2 / 9.16-v3 |
 
 ## 8.24: 3h
 
-**action**
+**solved**
 
-new floder \| skills choose \| mac tools download and prepear
-
-**slove**
-
-uniapp/vue3/flask download
+Downloaded uni-app, Vue 3, and Flask.
 
 ## 8.25: 3h
 
-**action**
+**solved**
 
-online database(TXcloud) \| Learn to use TXcloud
-
-**slove**
-
-try TXcloud \| link [between TXcloud and vscode(flask)] and CRUD
+Tried Tencent Cloud and connected Tencent Cloud database with VS Code / Flask for CRUD testing.
 
 ## 8.26: 3h
 
-**action**
+**solved**
 
-navicat test \| uniapp test \| learn to use uv venv
-
-**slove**
-
-link [between TXcloud and navicat local] and CRUD \| perfectly control uv venv
+Connected Tencent Cloud database with local Navicat for CRUD testing and learned the uv virtual environment workflow.
 
 **next**
 
-try link [ flask and vue ] \| try vue frontend
+Try connecting Flask and Vue, then continue frontend development.
 
 ## 8.27: 3h
 
-**action**
+**solved**
 
-github push 0.5 \| learn to use flask as Backend \|
-
-take a lecture https://www.youtube.com/watch?v=am7POvSZ4GE about python and flask
-
-**slove**
-
-git error \| make beautiful README.md :) \| beautiful star map
+Fixed Git issues, improved README.md, and added the Star History chart.
 
 **next**
 
-reuse old falsk code and try to make something awesome \| try [link flask and vue]
+Reuse old Flask code, build a stronger demo, and try connecting Flask with Vue.
+
+## 8.29
+
+**solved**
+
+Saved and pushed files, then created work notes in Markdown.
+
+**next**
+
+Rebuild the work environment and continue Flask development.
+
+## 9.1
+
+**solved**
+
+Saved files and pulled the latest project state.
+
+**next**
+
+Rebuild the work environment and continue Flask development.
 
 ## Star History
 

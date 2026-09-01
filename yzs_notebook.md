@@ -2,6 +2,7 @@ start time : 2026.8.24
 aim : samll app demo / H5 web demo
 tools : vscode navicat TXcloud(db) edge 
 skills : uniapp vue3(ts css html) flask mongodb  
+demo plan : 9.5-v1 9.9-v2 9.16-v3
 
 8.24: 3h
 action : new floder | skills choose | mac tools download and prepear 
@@ -23,6 +24,11 @@ slove : git error | make beautiful README.md :) | beautiful star map
 next : reuse old falsk code and try to make something awesome | try [link flask and vue]
 
 8.29:
-action : find a new job | change work mac 
+action : new work environment | change work mac 
 slove : file save and push | work md make
 next : rebuild work environment | continue flask
+
+9.1 :
+action : change work wins 
+slove : file save and pull 
+next : rebuild work environment | continue flask 
