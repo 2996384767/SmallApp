@@ -10,37 +10,25 @@
 | **skills** | uni-app, Vue 3 (TypeScript, CSS, HTML), Flask, MongoDB |
 | **demo plan** | 9.5-v1 / 9.9-v2 / 9.16-v3 |
 
-## 8.24: 3h
+## 9.2
 
 **solved**
 
-Downloaded uni-app, Vue 3, and Flask.
-
-## 8.25: 3h
-
-**solved**
-
-Tried Tencent Cloud and connected Tencent Cloud database with VS Code / Flask for CRUD testing.
-
-## 8.26: 3h
-
-**solved**
-
-Connected Tencent Cloud database with local Navicat for CRUD testing and learned the uv virtual environment workflow.
+No feature progress yet, except README updates.
 
 **next**
 
-Try connecting Flask and Vue, then continue frontend development.
+Continue the demo.
 
-## 8.27: 3h
+## 9.1
 
 **solved**
 
-Fixed Git issues, improved README.md, and added the Star History chart.
+Saved files and pulled the latest project state.
 
 **next**
 
-Reuse old Flask code, build a stronger demo, and try connecting Flask with Vue.
+Rebuild the work environment and continue Flask development.
 
 ## 8.29
 
@@ -52,15 +40,37 @@ Saved and pushed files, then created work notes in Markdown.
 
 Rebuild the work environment and continue Flask development.
 
-## 9.1
+## 8.27: 3h
 
 **solved**
 
-Saved files and pulled the latest project state.
+Fixed Git issues, improved README.md, and added the Star History chart.
 
 **next**
 
-Rebuild the work environment and continue Flask development.
+Reuse old Flask code, build a stronger demo, and try connecting Flask with Vue.
+
+## 8.26: 3h
+
+**solved**
+
+Connected Tencent Cloud database with local Navicat for CRUD testing and learned the uv virtual environment workflow.
+
+**next**
+
+Try connecting Flask and Vue, then continue frontend development.
+
+## 8.25: 3h
+
+**solved**
+
+Tried Tencent Cloud and connected Tencent Cloud database with VS Code / Flask for CRUD testing.
+
+## 8.24: 3h
+
+**solved**
+
+Downloaded uni-app, Vue 3, and Flask.
 
 ## Star History
 

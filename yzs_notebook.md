@@ -32,3 +32,8 @@ next : rebuild work environment | continue flask
 action : change work wins 
 slove : file save and pull 
 next : rebuild work environment | continue flask 
+
+9.2 : 
+action ：start fail :)
+slove : nothing expect readme
+next : continue demo
