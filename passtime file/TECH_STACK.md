@@ -1,5 +1,31 @@
 # AAA Small App 目标技术栈
 
+## 0. 当前执行路线覆盖说明
+
+从当前比赛 MVP 阶段开始，项目实现路径以根目录 [MINIPROGRAM_MVP_PATH.md](../MINIPROGRAM_MVP_PATH.md) 为准。先实现“肃联跨境：肃宁针纺产业带海外需求撮合与订单进度管理小程序 MVP”，不继续按早期 H5/uni-app 学习路线作为主线推进。
+
+当前执行方案：
+
+```text
+微信原生小程序
+    |
+    | HTTPS / JSON
+    v
+Flask API + Flask/Jinja2 管理后台
+    |
+    v
+本地 MariaDB 开发库 smallapp
+```
+
+核心业务链路：
+
+```text
+需求录入 -> 审核脱敏 -> 需求池发布 -> 工厂查看/筛选
+-> 申请接单 -> 平台审核 -> 形成订单 -> 进度同步
+```
+
+旧技术路径中的 uni-app、H5、长期 NestJS、PostgreSQL、Redis、S3、FastAPI AI 服务等内容暂时降级为后续参考，不进入当前比赛 MVP 的第一优先级。当前不做支付、物流 API、海外买家端、ERP、AI 匹配和复杂微服务。
+
 ## 1. 项目目标
 
 建设一个同时支持以下客户端的商用项目：
@@ -86,6 +112,105 @@ MariaDB 属于 MySQL 体系，与 MySQL 的语法和工具高度兼容。Postgre
 
 MariaDB 是本项目的正式备选方案。NestJS 应通过 ORM 或 Repository 层访问数据库，
 保持前端 API 不受数据库更换影响。
+
+### 当前本地 MariaDB 开发环境
+
+当前开发阶段暂时使用本地 MariaDB 作为关系型数据库，便于离线开发、快速重建测试数据、降低云资源成本，并减少开发期开放云数据库端口带来的安全风险。
+
+#### 本地实例建议
+
+| 项目 | 配置 |
+| --- | --- |
+| 数据库 | MariaDB |
+| 部署位置 | 本机开发环境 |
+| 主机 | 127.0.0.1 |
+| 端口 | 3306 |
+| 数据库名 | smallapp |
+| 字符集 | utf8mb4 |
+| 排序规则 | utf8mb4_general_ci |
+| 连接方式 | Flask 通过 SQLAlchemy + PyMySQL 连接 |
+
+#### 后端环境变量
+
+本地开发时在 `services/api/.env` 中配置 MariaDB 连接信息：
+
+```dotenv
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_USER=root
+DB_PASSWORD=your_local_password
+DB_NAME=smallapp
+DATABASE_URL=mysql+pymysql://root:your_local_password@127.0.0.1:3306/smallapp?charset=utf8mb4
+SECRET_KEY=replace-with-a-random-secret
+CORS_ORIGINS=http://localhost:5173,http://127.0.0.1:5173
+```
+
+`services/api/.env` 不提交到 Git。密码包含 `@`、`#`、`:`、`/` 等字符时，`DATABASE_URL` 中需要使用 URL 编码。
+
+#### 本地建库参考
+
+```sql
+CREATE DATABASE IF NOT EXISTS smallapp
+  CHARACTER SET utf8mb4
+  COLLATE utf8mb4_general_ci;
+
+-- 当前临时使用本地 root 账号开发。
+-- 后续正式开发建议改为专用业务账号，并只授予 smallapp 库权限。
+```
+
+前端不得直接连接 MariaDB，也不得保存数据库账号、密码或连接串。数据库连接信息只放在后端 `services/api/.env` 中，由 Flask 统一访问数据库并对前端暴露 HTTP API。
+
+<!--
+### 暂停使用：腾讯云 MySQL 开发环境
+
+以下云数据库配置暂时保留为备注，当前开发阶段先替换为本地 MariaDB。后续需要云端联调或部署时再恢复。
+
+#### 实例信息
+
+| 项目 | 配置 |
+| --- | --- |
+| 地域 | 中国香港 |
+| 可用区 | 香港二区 |
+| 数据库版本 | MySQL 8.0 |
+| 引擎 | InnoDB |
+| 架构 | 单节点（云盘） |
+| 实例规格 | 标准型 1核 / 2000MB |
+| 磁盘 | SSD 云硬盘 20GB |
+| 数据保护空间 | 1GB |
+| 计费方式 | 按量计费 |
+| MySQL 端口 | 3306 |
+| 字符集 | UTF8 / UTF8_GENERAL_CI |
+| 表名大小写敏感 | 关闭 |
+| 参数模板 | 高稳定性模板（推荐） |
+
+#### 网络配置
+
+| 项目 | 配置 |
+| --- | --- |
+| VPC | aaa-hk-vpc |
+| VPC 网段 | 10.0.0.0/16 |
+| 子网 | aaa-hk-subnet |
+| 子网网段 | 10.0.0.0/24 |
+| 安全组 | aaa-hk-mysql-sg |
+| 开发期入站规则 | all -> TCP:3306 -> 允许 |
+
+#### 安全说明
+
+开发期为了本地联调，安全组临时允许访问 TCP 3306。该规则仅用于临时开发，正式部署后应收紧为固定 IP 白名单，或改为后端服务通过同 VPC 内网访问数据库。
+
+前端不得直接连接 MySQL，也不得保存数据库账号、密码或连接串。数据库连接信息只放在后端 `services/api/.env` 中，并通过 `DATABASE_URL` 或拆分的 `DB_HOST`、`DB_PORT`、`DB_USER`、`DB_PASSWORD`、`DB_NAME` 提供给 Flask 使用。
+
+#### 费用参考
+
+当前参考费用约为：
+
+```text
+0.03490289 USD / 小时
+约 25.13 USD / 月（持续运行 30 天）
+```
+
+费用会随腾讯云实际计费规则、运行时长、磁盘、备份和网络策略变化。开发期如果长时间不用，可以考虑释放或停止相关资源以降低成本。
+-->
 
 ## 6. S3 兼容对象存储
 

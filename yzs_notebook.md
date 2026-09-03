@@ -37,3 +37,8 @@ next : rebuild work environment | continue flask
 action ：start fail :)
 slove : nothing expect readme
 next : continue demo
+
+9.3 ： 
+action : start demo | stop learning part
+slove : demo start | H5 first
+next : 

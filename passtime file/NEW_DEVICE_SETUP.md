@@ -9,7 +9,7 @@ AAA_small_app/
 |-- src/                         uni-app / Vue 3 前端源码
 |-- services/api/
 |   |-- src/aaa_api/             Flask 后端源码
-|   |-- query_database.py        查询云数据库
+|   |-- query_database.py        查询本地数据库
 |   |-- seed_test_data.py        创建测试数据
 |   |-- pyproject.toml           Python 依赖配置
 |   `-- uv.lock                  Python 依赖锁文件
@@ -27,7 +27,7 @@ uni-app / Vue 3 前端
         |
       Flask
         |
-  腾讯云 MySQL
+  本地 MariaDB
 ```
 
 ## 2. 克隆项目
@@ -55,7 +55,7 @@ git remote -v
 - uv
 - VS Code
 - 微信开发者工具（开发微信小程序时使用）
-- Navicat（可选，用于查看云数据库）
+- Navicat（可选，用于查看本地 MariaDB）
 
 确认命令可用：
 
@@ -128,18 +128,18 @@ deactivate
 
 ```bash
 cd services/api
-cp ../../shelved/backend/.env.example .env
+cp .env.example .env
 ```
 
 编辑 `.env`：
 
 ```dotenv
-DB_HOST=腾讯云数据库外网或内网地址
-DB_PORT=数据库端口
+DB_HOST=127.0.0.1
+DB_PORT=3306
 DB_USER=数据库业务账号
 DB_PASSWORD=数据库密码
-DB_NAME=aaa_small_app
-DATABASE_URL=mysql+pymysql://用户名:URL编码后的密码@数据库地址:端口/aaa_small_app?charset=utf8mb4
+DB_NAME=smallapp
+DATABASE_URL=mysql+pymysql://用户名:URL编码后的密码@127.0.0.1:3306/smallapp?charset=utf8mb4
 SECRET_KEY=替换为随机密钥
 CORS_ORIGINS=http://localhost:5173,http://127.0.0.1:5173
 ```
@@ -148,21 +148,36 @@ CORS_ORIGINS=http://localhost:5173,http://127.0.0.1:5173
 
 - 不要将 `.env` 提交到 GitHub。
 - 密码含有 `@`、`#`、`:`、`/` 等字符时，`DATABASE_URL` 中需要进行 URL 编码。
-- 正式上线前应使用只拥有 `aaa_small_app` 权限的业务账号。
+- 正式上线前应使用只拥有 `smallapp` 权限的业务账号。
 
-## 7. 配置腾讯云 MySQL 网络
+## 7. 配置本地 MariaDB
 
-数据库位于腾讯云，新设备的公网 IP 可能与旧设备不同。
+当前开发阶段暂时使用本机 MariaDB，不直接连接腾讯云 MySQL。先确认本地 MariaDB 服务已启动，并创建项目开发数据库和业务账号。
 
-如果连接失败，请在腾讯云 MySQL 控制台检查：
+推荐数据库配置：
 
-1. 实例是否正常运行。
-2. 外网连接地址是否开启。
-3. 安全组是否允许数据库端口。
-4. 数据库账号授权主机是否包含新设备公网 IP。
-5. 数据库 `aaa_small_app` 是否存在。
+```text
+Host: 127.0.0.1
+Port: 3306
+Database: smallapp
+Charset: utf8mb4
+Collation: utf8mb4_general_ci
+```
 
-正式部署 Flask 后，应优先使用同地域、同 VPC 的内网地址，并关闭不必要的数据库公网访问。
+建库参考：
+
+```sql
+CREATE DATABASE IF NOT EXISTS smallapp
+  CHARACTER SET utf8mb4
+  COLLATE utf8mb4_general_ci;
+
+-- 当前临时使用本地 root 账号开发。
+-- 后续正式开发建议改为专用业务账号，并只授予 smallapp 库权限。
+```
+
+随后在 `services/api/.env` 中使用同一组本地账号信息。不要把 `.env` 提交到 GitHub。
+
+腾讯云 MySQL 暂时作为备用方案保留在技术文档备注中。正式部署 Flask 后，应优先让后端服务通过同地域、同 VPC 的内网地址访问云数据库，并关闭不必要的公网访问。
 
 ## 8. 配置 VS Code Python 解释器
 
@@ -248,7 +263,7 @@ http://127.0.0.1:5000/test
 }
 ```
 
-查询云数据库全部业务数据：
+查询本地数据库全部业务数据：
 
 ```bash
 cd services/api
@@ -315,10 +330,10 @@ uv run python -c "import pymysql; import dotenv; print('OK')"
 
 ```text
 .env 配置
-腾讯云外网地址和端口
-新设备公网 IP 白名单
-数据库账号权限
-aaa_small_app 数据库是否存在
+本地 MariaDB 服务是否启动
+127.0.0.1:3306 是否可访问
+数据库账号权限和密码
+smallapp 数据库是否存在
 ```
 
 ### `.venv` 在 VS Code 中看不到
@@ -332,6 +347,6 @@ aaa_small_app 数据库是否存在
 - `npm run dev:h5` 可以启动前端。
 - Flask 健康接口返回 HTTP 200。
 - 数据库健康接口返回 `connected`。
-- `/test` 能显示腾讯云 MySQL 中的数据。
+- `/test` 能显示本地 MariaDB 中的数据。
 - `git status` 可以正常查看仓库状态。
 - `.env`、`.venv` 和 `node_modules` 未被 Git 跟踪。

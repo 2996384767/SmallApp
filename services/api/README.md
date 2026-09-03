@@ -1,5 +1,15 @@
 # Flask 后端
 
+当前开发数据库：本地 MariaDB。
+
+首次配置：
+
+```bash
+cp .env.example .env
+```
+
+然后编辑 `.env` 中的 `DB_PASSWORD` 和 `DATABASE_URL`。
+
 启动：
 
 ```bash

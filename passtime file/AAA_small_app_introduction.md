@@ -10,7 +10,11 @@
 
 ## Overview
 
-AAA Small App is an evolving full-stack demo built to explore a practical workflow across H5, WeChat Mini Programs, REST APIs, and cloud databases. It combines a uni-app frontend with a Flask backend and Tencent Cloud MySQL.
+> Current implementation path: competition MVP first. See `MINIPROGRAM_MVP_PATH.md`.
+
+AAA Small App is an evolving full-stack demo built to explore a practical workflow across H5, WeChat Mini Programs, REST APIs, and relational databases. It combines a uni-app frontend with a Flask backend and a local MariaDB development database.
+
+The current delivery target has shifted to a real, demoable WeChat Mini Program MVP: overseas demand intake, platform review and desensitization, demand pool publishing, factory applications, admin approval, order creation, and progress synchronization. The earlier uni-app/H5 code remains prototype and learning material rather than the active implementation path.
 
 The project began on August 24, 2026. Its current focus is connecting the frontend and backend through a small, understandable end-to-end feature before expanding into a larger application.
 
@@ -19,12 +23,12 @@ The project began on August 24, 2026. Its current focus is connecting the fronte
 - One uni-app codebase for H5 and WeChat Mini Program builds
 - Vue 3 and TypeScript frontend
 - Modular Flask backend with an application factory and API blueprint
-- Tencent Cloud MySQL connectivity through SQLAlchemy and PyMySQL
+- Local MariaDB connectivity through SQLAlchemy and PyMySQL
 - Local database inspection with Navicat
 - Reproducible Python environment managed by uv
 - Service and database health-check endpoints
 - Test data creation and database query scripts
-- A Flask test page that renders cloud database records
+- A Flask test page that renders local database records
 
 ## Architecture
 
@@ -37,7 +41,7 @@ H5 / WeChat Mini Program
           |
          Flask
           |
- Tencent Cloud MySQL
+ Local MariaDB
 ```
 
 ## Tech Stack
@@ -46,7 +50,7 @@ H5 / WeChat Mini Program
 | --- | --- |
 | Frontend | uni-app, Vue 3, TypeScript, Vite |
 | Backend | Python, Flask, Flask-SQLAlchemy |
-| Database | Tencent Cloud MySQL 8.0, PyMySQL |
+| Database | Local MariaDB, PyMySQL |
 | Tooling | uv, npm, VS Code, Navicat |
 
 ## Project Structure
@@ -109,12 +113,12 @@ Useful local URLs:
 Create `services/api/.env` and provide your own database credentials:
 
 ```dotenv
-DB_HOST=your-database-host
+DB_HOST=127.0.0.1
 DB_PORT=3306
 DB_USER=your-application-user
 DB_PASSWORD=your-password
-DB_NAME=aaa_small_app
-DATABASE_URL=mysql+pymysql://user:password@host:3306/aaa_small_app?charset=utf8mb4
+DB_NAME=smallapp
+DATABASE_URL=mysql+pymysql://user:password@127.0.0.1:3306/smallapp?charset=utf8mb4
 SECRET_KEY=replace-with-a-random-secret
 CORS_ORIGINS=http://localhost:5173
 ```
@@ -126,8 +130,8 @@ Never commit `.env` or production credentials to Git.
 Completed:
 
 - uni-app and Flask development environments
-- Tencent Cloud MySQL connection
-- Cloud database CRUD verification
+- Local MariaDB connection
+- Local database CRUD verification
 - Navicat connection and data inspection
 - uv virtual environment workflow
 - Flask database-backed test page
@@ -158,7 +162,11 @@ This repository is currently a learning project and an early-stage prototype. Th
 
 ## 项目简介
 
-AAA Small App 是一个持续开发中的全栈演示项目，用于学习 H5、微信小程序、REST API 和云数据库之间的实际开发流程。项目采用 uni-app 构建前端，以 Flask 提供后端服务，并连接腾讯云 MySQL。
+> 当前实现路径：优先完成比赛可演示 MVP，详见 `MINIPROGRAM_MVP_PATH.md`。
+
+AAA Small App 是一个持续开发中的全栈演示项目，用于学习 H5、微信小程序、REST API 和关系型数据库之间的实际开发流程。项目采用 uni-app 构建前端，以 Flask 提供后端服务，并暂时连接本地 MariaDB 开发数据库。
+
+当前交付目标已经切换为真实可演示的微信小程序 MVP：海外需求录入、平台审核脱敏、需求池发布、工厂申请接单、后台审核、订单形成和进度同步。早期 uni-app/H5 代码保留为原型和学习材料，不再作为当前比赛版本的主实现路径。
 
 项目开始于 2026 年 8 月 24 日。当前目标是先完成一个清晰、可理解的前后端数据闭环，再逐步扩展实际业务功能。
 
@@ -167,12 +175,12 @@ AAA Small App 是一个持续开发中的全栈演示项目，用于学习 H5、
 - 一套 uni-app 源码构建 H5 和微信小程序
 - 使用 Vue 3 与 TypeScript 开发前端
 - Flask Application Factory 与 API Blueprint 模块化后端
-- 通过 SQLAlchemy 和 PyMySQL 连接腾讯云 MySQL
+- 通过 SQLAlchemy 和 PyMySQL 连接本地 MariaDB
 - 使用 Navicat 在本地管理和检查数据
 - 使用 uv 管理可复现的 Python 虚拟环境
 - 提供服务与数据库健康检查接口
 - 提供测试数据生成和全库查询脚本
-- 提供读取云数据库记录的 Flask 测试页面
+- 提供读取本地数据库记录的 Flask 测试页面
 
 ## 系统架构
 
@@ -185,7 +193,7 @@ H5 / 微信小程序
        |
       Flask
        |
- 腾讯云 MySQL
+ 本地 MariaDB
 ```
 
 ## 技术栈
@@ -194,7 +202,7 @@ H5 / 微信小程序
 | --- | --- |
 | 前端 | uni-app、Vue 3、TypeScript、Vite |
 | 后端 | Python、Flask、Flask-SQLAlchemy |
-| 数据库 | 腾讯云 MySQL 8.0、PyMySQL |
+| 数据库 | 本地 MariaDB、PyMySQL |
 | 工具 | uv、npm、VS Code、Navicat |
 
 ## 项目结构
@@ -257,12 +265,12 @@ uv run flask --app aaa_api:create_app run --debug
 创建 `services/api/.env`，填入自己的数据库信息：
 
 ```dotenv
-DB_HOST=数据库地址
+DB_HOST=127.0.0.1
 DB_PORT=3306
 DB_USER=业务账号
 DB_PASSWORD=数据库密码
-DB_NAME=aaa_small_app
-DATABASE_URL=mysql+pymysql://用户名:密码@地址:3306/aaa_small_app?charset=utf8mb4
+DB_NAME=smallapp
+DATABASE_URL=mysql+pymysql://用户名:密码@127.0.0.1:3306/smallapp?charset=utf8mb4
 SECRET_KEY=替换为随机密钥
 CORS_ORIGINS=http://localhost:5173
 ```
@@ -274,8 +282,8 @@ CORS_ORIGINS=http://localhost:5173
 已经完成：
 
 - uni-app 与 Flask 开发环境
-- 腾讯云 MySQL 连接
-- 云数据库增删改查验证
+- 本地 MariaDB 连接
+- 本地数据库增删改查验证
 - Navicat 数据库连接与检查
 - uv 虚拟环境使用流程
 - Flask 数据库测试页面

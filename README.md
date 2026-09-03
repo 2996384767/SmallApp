@@ -10,6 +10,12 @@
 | **skills** | uni-app, Vue 3 (TypeScript, CSS, HTML), Flask, MongoDB |
 | **demo plan** | 9.5-v1 / 9.9-v2 / 9.16-v3 |
 
+## Current MVP Direction
+
+The active implementation path is now the competition MVP described in `MINIPROGRAM_MVP_PATH.md`: native WeChat Mini Program + Flask API/Admin + local MariaDB. The earlier H5/uni-app route is kept as prototype and learning context.
+
+UI work follows `UI_DESIGN_SKILLS.md`, `docs/design-system.md`, `docs/ui-decisions.md`, and the installed `ui-ux-pro-max-compat` / `frontend-design` / `china-miniapp-design` / `miniapp-ui-review` skills.
+
 ## 9.2
 
 **solved**

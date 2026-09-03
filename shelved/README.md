@@ -4,8 +4,8 @@
 
 ## 已搁置
 
-- `docs/TECH_STACK.md`：长期技术栈设想。
-- `backend/.env.example`：连接云数据库和配置生产环境时使用。
+- `../passtime file/TECH_STACK.md`：长期技术栈设想，已归档到旧说明文档文件夹。
+- `backend/.env.example`：连接本地 MariaDB 和配置后端环境变量时使用。
 - `backend/migrations/`：开始设计正式数据表后恢复到 `services/api/migrations/`。
 - `backend/tests/`：需要自动化测试时恢复到 `services/api/tests/`。
 - `backend/wsgi.py`：使用 Gunicorn 部署 Flask 时恢复到 `services/api/wsgi.py`。

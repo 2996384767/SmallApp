@@ -10,6 +10,12 @@
 | **技能** | uni-app、Vue 3（TypeScript、CSS、HTML）、Flask、MongoDB |
 | **演示计划** | 9.5-v1 / 9.9-v2 / 9.16-v3 |
 
+## 当前 MVP 方向
+
+当前主实现路径切换为 `MINIPROGRAM_MVP_PATH.md` 中记录的比赛 MVP：微信原生小程序 + Flask API/后台 + 本地 MariaDB。早期 H5/uni-app 路线保留为原型和学习背景。
+
+UI 开发遵循 `UI_DESIGN_SKILLS.md`、`docs/design-system.md`、`docs/ui-decisions.md`，并使用已安装的 `ui-ux-pro-max-compat` / `frontend-design` / `china-miniapp-design` / `miniapp-ui-review` skills。
+
 ## 9.2
 
 **解决**
