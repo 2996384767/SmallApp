@@ -7,16 +7,18 @@ Current implementation follows `MINIPROGRAM_MVP_PATH.md`.
 Build the competition MVP first:
 
 ```text
-WeChat native mini program
+uni-app / Vue 3
+-> H5 mini program simulation for fast browser preview
+-> WeChat Mini Program build through mp-weixin
 -> Flask API and Flask/Jinja2 admin
 -> local MariaDB database smallapp
 ```
 
-The old H5/uni-app path is prototype and learning context, not the active delivery path.
+The active delivery path uses uni-app first, because the project needs a browser-visible H5 simulation while keeping a WeChat Mini Program build path.
 
 ## UI Skill Workflow
 
-For mini program UI work:
+For uni-app mini program UI work:
 
 1. Read `MINIPROGRAM_MVP_PATH.md`.
 2. Read `UI_DESIGN_SKILLS.md` when design-skill coordination matters.
@@ -26,6 +28,8 @@ For mini program UI work:
 6. Use installed `frontend-design` only as a Taste Layer when visual direction is needed.
 7. Apply installed/project `china-miniapp-design` as the Platform Layer.
 8. After implementation or screenshots, apply installed/project `miniapp-ui-review` as the Review Layer.
+
+In H5 preview, pages should visually simulate a mobile mini program viewport while keeping the same `rpx`-based layout usable for `mp-weixin`.
 
 Do not let broad frontend taste guidance override WeChat platform rules, business correctness, or the frozen design system.
 

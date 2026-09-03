@@ -4,10 +4,14 @@
 
 当前项目先按“比赛可演示的真实 MVP”推进，不做完整跨境电商平台，也不优先做 H5 展示页、微服务、Redis、消息队列、ERP、支付、物流 API 或 AI 匹配。
 
+完整计划原文已保存到 `docs/SULIAN_MVP_FULL_PLAN.md`。
+
 当前执行技术路线：
 
 ```text
-微信原生小程序
+uni-app / Vue 3
+    |
+    | H5 模拟小程序预览 / mp-weixin 构建
     |
     | HTTPS / JSON
     v
@@ -17,7 +21,7 @@ Flask API + Flask/Jinja2 管理后台
 本地 MariaDB 开发库
 ```
 
-现有 `uni-app / Vue 3` 代码可以作为早期学习和页面参考，但比赛 MVP 的主线暂时切换为微信原生小程序 + Flask + MariaDB。
+现有 `uni-app / Vue 3` 代码恢复为比赛 MVP 的前端主线：开发期优先通过 H5 在浏览器里模拟小程序效果，后续通过 `mp-weixin` 构建微信小程序版本。
 
 ## 产品边界
 

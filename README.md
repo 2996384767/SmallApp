@@ -12,9 +12,37 @@
 
 ## Current MVP Direction
 
-The active implementation path is now the competition MVP described in `MINIPROGRAM_MVP_PATH.md`: native WeChat Mini Program + Flask API/Admin + local MariaDB. The earlier H5/uni-app route is kept as prototype and learning context.
+The active implementation path is now the competition MVP described in `MINIPROGRAM_MVP_PATH.md`: uni-app / Vue 3 with H5 mini program simulation + WeChat Mini Program build + Flask API/Admin + local MariaDB.
 
 UI work follows `UI_DESIGN_SKILLS.md`, `docs/design-system.md`, `docs/ui-decisions.md`, and the installed `ui-ux-pro-max-compat` / `frontend-design` / `china-miniapp-design` / `miniapp-ui-review` skills.
+
+## Run Frontend
+
+Install dependencies once:
+
+```bash
+npm install
+```
+
+Preview the mini program simulation in a browser:
+
+```bash
+npm run dev:h5
+```
+
+Open <http://localhost:5173/>.
+
+Build for H5:
+
+```bash
+npm run build:h5
+```
+
+Build or preview for WeChat Mini Program when needed:
+
+```bash
+npm run dev:mp-weixin
+```
 
 ## 9.2
 

@@ -39,6 +39,7 @@ slove : nothing expect readme
 next : continue demo
 
 9.3 ： 
-action : start demo | stop learning part
-slove : demo start | H5 first
+action : start demo | stop learning part | stop txcloud database
+slove : demo start | H5 first | change local mariadb to used | 
+        UI design rule and skills setting |user sgin in page
 next : 

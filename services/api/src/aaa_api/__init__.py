@@ -28,7 +28,16 @@ def create_app(test_config: dict | None = None) -> Flask:
     @app.get("/test")
     def test_page():
         rows = db.session.execute(
-            text("SELECT id, randomnums FROM test ORDER BY id")
+            text(
+                """
+                SELECT
+                    id, demand_no, country, category, product_name,
+                    quantity, craft, delivery_days, status
+                FROM demand
+                ORDER BY id
+                LIMIT 30
+                """
+            )
         ).mappings()
         return render_template("test.html", rows=rows)
 
